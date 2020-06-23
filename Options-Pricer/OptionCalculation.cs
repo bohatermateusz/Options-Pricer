@@ -1,4 +1,5 @@
 ﻿using System;
+using MathNet.Numerics.Distributions;
 
 namespace Options_Pricer
 {
@@ -32,8 +33,13 @@ namespace Options_Pricer
 
         private double CallOptionPremiums()
         {
-            var c = standardDeviation*Math.No
-            return c
+            var normalDistributionResultOfD1 = Normal.CDF(1, 0, D_1());
+            var exponentalResultRiskFreeIntrestRate = Exponential.CDF(riskFreeIntrestRate, timeToMaturity);
+            var normalDistributionResultOfD2 = Normal.CDF(1, 0, D_2(D_1()));
+
+            var callOptionPremiumsResult = standardDeviation * normalDistributionResultOfD1 - strikePrice * exponentalResultRiskFreeIntrestRate * normalDistributionResultOfD2;
+            
+            return callOptionPremiumsResult;
         }
 
     }
