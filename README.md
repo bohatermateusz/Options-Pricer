@@ -2,7 +2,7 @@
 Black-Scholes option pricing model
 
 This is a simple solution for a given task.
-This code is focused on solution and doesn't conver features like:
+This code is focused on solution and doesn't cover features like:
 
 - Multithreading
 - Error Handling
