@@ -5,15 +5,15 @@ namespace Options_Pricer
 {
     internal class OptionCalculation
     {
-        int stockPrice { get; set; }
-        int strikePrice { get; set; }
-        int riskFreeIntrestRate { get; set; }
-        int timeToMaturity { get; set; }
-        int standardDeviation { get; set; }
+        double stockPrice { get; set; }
+        double strikePrice { get; set; }
+        double riskFreeIntrestRate { get; set; }
+        double timeToMaturity { get; set; }
+        double standardDeviation { get; set; }
         double d1 { get; set; }
         double d2 { get; set; }
         double exponentalResultRiskFreeIntrestRateResult { get; set; }
-        internal OptionCalculation(int _stockPrice, int _strikePrice, int _timeToMaturity, int _standardDeviation, int _riskFreeIntrestRate)
+        internal OptionCalculation(double _stockPrice, double _strikePrice, double _timeToMaturity, double _standardDeviation, double _riskFreeIntrestRate)
         {
             stockPrice = _stockPrice;
             strikePrice = _strikePrice;
@@ -25,19 +25,23 @@ namespace Options_Pricer
         }
         internal double CallOptionPremiums()
         {
-            var callOptionPremiumsResult = standardDeviation * Normal.CDF(1, 0, d1) - strikePrice * exponentalResultRiskFreeIntrestRateResult * Normal.CDF(1, 0, d2);   
+            var callOptionPremiumsResult = stockPrice * Normal.CDF(0, 1, d1) - strikePrice * exponentalResultRiskFreeIntrestRateResult * Normal.CDF(0, 1, d2);   
             return callOptionPremiumsResult;
         }
         internal double OptionPrice()
         {
-            var optionPriceResult = strikePrice * exponentalResultRiskFreeIntrestRateResult * Normal.CDF(1, 0, - d2) - standardDeviation* Normal.CDF(1, 0, - d1);
+            var optionPriceResult = strikePrice * exponentalResultRiskFreeIntrestRateResult * Normal.CDF(0, 1, - d2) - stockPrice* Normal.CDF(0, 1, - d1);
             return optionPriceResult;
         }
         private void Variable_Calculations()
         {
+            var log = (Math.Log(stockPrice / strikePrice));
+            var pow = (Math.Pow(standardDeviation, 2));
+            var sqrt = (Math.Sqrt(timeToMaturity));
+
             d1 = (Math.Log(stockPrice / strikePrice) + (riskFreeIntrestRate + (Math.Pow(standardDeviation, 2)) / 2) * timeToMaturity) / (standardDeviation * Math.Sqrt(timeToMaturity));
             d2 = d1 - standardDeviation * Math.Sqrt(timeToMaturity);
-            exponentalResultRiskFreeIntrestRateResult = Exponential.CDF(riskFreeIntrestRate, timeToMaturity);
+            exponentalResultRiskFreeIntrestRateResult = Exponential.PDF(1, timeToMaturity * riskFreeIntrestRate);
         }
 
         internal double NormalDistributionResult(double x)
