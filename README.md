@@ -10,3 +10,5 @@ This code is focused on solution and doesn't conver features like:
 - Advanced User Interface
 
 It solves Black-Scholes option pricing model with minimum coding lines.
+
+Features could be made on request.
