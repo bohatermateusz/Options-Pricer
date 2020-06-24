@@ -8,6 +8,7 @@ This code is focused on solution and doesn't conver features like:
 - Error Handling
 - Interface segregation
 - Advanced User Interface
+- Testing
 
 It solves Black-Scholes option pricing model with minimum coding lines.
 
